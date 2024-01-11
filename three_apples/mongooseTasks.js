@@ -1,13 +1,19 @@
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://127.0.0.1:27017/test');
-  
-const AppleSchema = new mongoose.Schema( {name: String} );
-AppleSchema.methods.brew = function() {
-console.log(this.name + ' издает хруст');
-}
-const Apple = mongoose.model('Apple', AppleSchema);
-const welding = new Apple({ name: 'Семиренка' });
-  
-welding.save()
-  .then(() => welding.brew())
-  .catch((err) => console.log(err))
+mongoose.connect('mongodb://127.0.0.1:27017/test1');
+
+const Apple = require("./models/apple").Apple;
+
+const apple = new Apple({
+  title: "Красно-желтое яблоко",
+  nick: "Honeycrisp"
+});
+
+console.log(apple);
+
+apple.save()
+  .then((result) => {
+    console.log(result);
+  })
+  .catch((error) => {
+    console.log(error);
+  });
