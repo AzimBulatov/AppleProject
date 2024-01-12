@@ -1,34 +1,31 @@
 const express = require('express');
 const router = express.Router();
 const Apple = require("../models/apple").Apple;
-const async = require("async")
 
-router.get('/:nick', async function(req, res, next) {
-  try {
-    const [apple, apples] = await Promise.all([
-      Apple.findOne({ nick: req.params.nick }),
-      Apple.find({}, { _id: 0, title: 1, nick: 1 })
-    ]);
-  
-    if (!apple) {
-      throw new Error("Нет такого");
-    }
-    
-    renderApple(res, apple.title, apple.avatar, apple.desc, apples);
-  } catch (err) {
-    next(err);
-  }
+/* GET users listing. */
+router.get('/', (req, res) => {
+    res.send('Новый маршрутизатор, для маршрутов, начинающихся с apples');
 });
 
-function renderApple(res, title, picture, desc, apples) {
-  console.log(apples);
+/* Страница чая */
+router.get('/:nick', async (req, res, next) => {
+    try {
+        const [apple, apples] = await Promise.all([
+            Apple.findOne({ nick: req.params.nick }).exec(),
+            Apple.find({}, { _id: 0, title: 1, nick: 1 }).exec()
+        ]);
 
-  res.render('apple', {
-    title: title,
-    picture: picture,
-    desc: desc,
-    menu: apples
-  });
-}
+        if (!apple) throw new Error("Нет такого чая");
+
+        res.render('apple', {
+            title: apple.title,
+            picture: apple.avatar,
+            desc: apple.desc,
+            menu: apples || []
+        });
+    } catch (err) {
+         next(err);
+    }
+});
 
 module.exports = router;
