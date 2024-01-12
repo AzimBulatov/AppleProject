@@ -1,7 +1,7 @@
 var MongoClient = require('mongodb').MongoClient
 var data = require("./data.js").data
 
-const uri = "mongodb://localhost:27017/"
+const uri = "mongodb://127.0.0.1:27017/"
 const client = new MongoClient(uri)
 async function run() {
 try {
@@ -11,7 +11,7 @@ try {
     database = client.db("threeapples");
     const apples = database.collection("apples");
     const result = await apples.insertMany(data);
-    console.log(`${result} documents were inserted`);
+    console.log(`${result.insertedCount} documents were inserted`);
 }
 finally 
 {

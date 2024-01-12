@@ -1,10 +1,10 @@
-var express = require('express');
-var router = express.Router();
-var Apple = require("../models/apple").Apple
+const express = require('express');
+const router = express.Router();
+const Apple = require("../models/apple").Apple;
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('Новый маршрутизатор, для маршрутов, начинающихся с apples');
+  res.send('Новый маршрутизатор, для маршрутов, начинающихся с apple');
 });
 
 router.get("/:nick", async (req, res, next) => {
