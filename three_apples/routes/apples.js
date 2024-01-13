@@ -1,31 +1,23 @@
-const express = require('express');
-const router = express.Router();
-const Apple = require("../models/apple").Apple;
-var checkAuth = require("./../middleware/checkAuth.js")
-/* GET users listing. */
-router.get('/', (req, res) => {
-    res.send('Новый маршрутизатор, для маршрутов, начинающихся с apples');
+var express = require('express');
+var router = express.Router();
+var db = require('../mySQLConnect.js');
+router.get('/', function(req, res, next) {
+res.send('<h1>Это экран для списка яблок</h1>');
 });
-
-/* Страница чая */
-router.get('/:nick',checkAuth, async (req, res, next) => {
-    try {
-        const [apple, apples] = await Promise.all([
-            Apple.findOne({ nick: req.params.nick }).exec(),
-            Apple.find({}, { _id: 0, title: 1, nick: 1 }).exec()
-        ]);
-
-        if (!apple) throw new Error("Нет такого чая");
-
-        res.render('apple', {
-            title: apple.title,
-            picture: apple.avatar,
-            desc: apple.desc,
-            menu: apples || []
-        });
-    } catch (err) {
-         next(err);
-    }
+router.get("/:nick", function(req, res, next) {
+db.query(`SELECT * FROM apples WHERE apples.nick = '${req.params.nick}'`, (err, apples) => {
+if(err) {
+console.log(err);
+if(err) return next(err)
+} else {
+if(apples.length == 0) return next(new Error("Нет такого яблока"))
+var apple = apples[0];
+res.render('apple', {
+title: apple.title,
+picture: apple.avatar,
+desc: apple.about
+})
+}
+})
 });
-
 module.exports = router;
