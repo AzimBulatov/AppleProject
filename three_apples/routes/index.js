@@ -11,6 +11,8 @@ router.get('/', async (req, res, next) => {
     next(err);
   }
 });
-
+router.get('/logreg', (req, res, next) => {
+  res.render('logreg', { title: 'Вход' });
+});
 
 module.exports = router;
