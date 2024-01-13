@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const Apple = require("../models/apple").Apple;
-
+var checkAuth = require("./../middleware/checkAuth.js")
 /* GET users listing. */
 router.get('/', (req, res) => {
     res.send('Новый маршрутизатор, для маршрутов, начинающихся с apples');
 });
 
 /* Страница чая */
-router.get('/:nick', async (req, res, next) => {
+router.get('/:nick',checkAuth, async (req, res, next) => {
     try {
         const [apple, apples] = await Promise.all([
             Apple.findOne({ nick: req.params.nick }).exec(),
