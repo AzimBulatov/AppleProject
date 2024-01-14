@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
     res.send('Новый маршрутизатор, для маршрутов, начинающихся с apples');
 });
 
-/* Страница чая */
+/* Страница яблока */
 router.get('/:nick', async (req, res, next) => {
     try {
         const [apple, apples] = await Promise.all([
