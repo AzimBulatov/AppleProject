@@ -15,7 +15,7 @@ router.get('/:nick', async (req, res, next) => {
             Apple.find({}, { _id: 0, title: 1, nick: 1 }).exec()
         ]);
 
-        if (!apple) throw new Error("Нет такого чая");
+        if (!apple) throw new Error("Нет такого яблока");
 
         res.render('apple', {
             title: apple.title,
