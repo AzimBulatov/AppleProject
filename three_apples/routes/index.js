@@ -31,7 +31,7 @@ router.post('/logreg', function(req, res, next) {
   req.session.user = user.id
   res.redirect('/')
   } else {
-  res.render('logreg', {title: 'Вход'})
+    res.render('logreg', { title: 'Вход',error:"Неверный пароль"}); 
   }
   } else {
   db.query(`INSERT INTO user (username, password) VALUES ('${username}',
